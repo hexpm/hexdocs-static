@@ -112,17 +112,6 @@ a:hover {
   text-transform: uppercase;
 }
 
-.splash-head {
-  font-size: 20px;
-  font-weight: bold;
-  color: black;
-  border: 3px solid black;
-  padding: 1em 1.6em;
-  font-weight: 100;
-  border-radius: 5px;
-  line-height: 1em;
-}
-
 .splash-subhead {
   color: black;
   letter-spacing: 0.05em;
@@ -137,16 +126,6 @@ a:hover {
   .splash {
     width: 50%;
     height: 50%;
-  }
-
-  .splash-head {
-    font-size: 250%;
-  }
-}
-
-@media (min-width:78em) {
-  .splash-head {
-    font-size: 300%;
   }
 }
 
