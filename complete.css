@@ -109,13 +109,13 @@ a:hover {
   left: 0;
   right: 0;
   text-align: center;
-  text-transform: uppercase;
 }
 
 .splash-subhead {
   color: black;
   letter-spacing: 0.05em;
   opacity: 0.8;
+  text-transform: uppercase;
 }
 
 @media (min-width:48em) {
@@ -129,16 +129,16 @@ a:hover {
   }
 }
 
-code {
-  text-transform: none;
-}
-
 h1,
 h3 {
   color: #333;
+  text-transform: uppercase;
+}
+
+small {
+  text-transform: uppercase;
 }
 
 .no-upcase {
   text-transform: none;
 }
-
