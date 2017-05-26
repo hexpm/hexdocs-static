@@ -70,6 +70,28 @@
     <script type="text/javascript">
       var searchIndex = [];
       (function () {
+        document.getElementById('search-submit').addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!searchIndex.length) buildSearchIndex();
+          var searchText = document.getElementById('search').value.toLowerCase();
+          var searchResults = document.getElementById('search-results');
+          searchResults.innerHTML = "";
+
+          for (var i = 0; i < searchIndex.length; i++) {
+            if (searchIndex[i].name === searchText) {
+              var li = document.createElement("li");
+              li.innerHTML = "<em>" + makeMatch(searchIndex[i]) + "</em>";
+              searchResults.insertBefore(li, searchResults.firstChild);
+            } else if (searchIndex[i].name.search(searchText) >= 0) {
+              var li = document.createElement("li");
+              li.innerHTML = makeMatch(searchIndex[i]);
+              searchResults.appendChild(li);
+            }
+          }
+          return true;
+        });
+
         function buildSearchIndex() {
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
@@ -87,25 +109,11 @@
           xhttp.send();
         }
 
-        document.getElementById('search-submit').addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          if (!searchIndex.length) buildSearchIndex();
-          var searchText = document.getElementById('search').value.toLowerCase();
-          var searchResults = document.getElementById('search-results');
-          searchResults.innerHTML = "";
-
-          for (var i = 0; i < searchIndex.length; i++) {
-            if (searchIndex[i].name.search(searchText) >= 0) {
-              var li = document.createElement("li");
-              li.innerHTML = "<a href='{{url}}'>{{name}}</a> (<a href='https://hex.pm/packages/{{name}}'>hex</a>)"
-                .replace(/{{name}}/g, searchIndex[i].name)
-                .replace(/{{url}}/g, searchIndex[i].url);
-              searchResults.appendChild(li);
-            }
-          }
-          return true;
-        });
+        function makeMatch(result) {
+          return "<a href='{{url}}'>{{name}}</a> (<a href='https://hex.pm/packages/{{name}}'>hex</a>)"
+                .replace(/{{name}}/g, result.name)
+                .replace(/{{url}}/g, result.url);
+        }
       })();
     </script>
   </body>
