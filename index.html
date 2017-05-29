@@ -110,7 +110,7 @@
         }
 
         function makeMatch(result) {
-          return "<a href='{{url}}'>{{name}}</a> (<a href='https://hex.pm/packages/{{name}}'>hex</a>)"
+          return "<a href='{{url}}'>{{name}}</a>"
                 .replace(/{{name}}/g, result.name)
                 .replace(/{{url}}/g, result.url);
         }
