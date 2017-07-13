@@ -17,6 +17,14 @@
 
         <h3>Finding documentation</h3>
 
+        <form autocomplete="off">
+          <input type="search" autofocus="" placeholder="Find packages" name="search" id="search" value="" tabindex="1"><!--
+          --><label class="sr-only" for="search">Find packages</label><!--
+          --><button type="submit" id="search-submit" tabindex="1"><svg aria-hidden="aria-hidden" version="1.1" viewBox="0 0 1200 1200"><g transform="translate(0, 1200) scale(1, -1)"><path d="M500 1191q100 0 191 -39t156.5 -104.5t104.5 -156.5t39 -191l-1 -2l1 -5q0 -141 -78 -262l275 -274q23 -26 22.5 -44.5t-22.5 -42.5l-59 -58q-26 -20 -46.5 -20t-39.5 20l-275 274q-119 -77 -261 -77l-5 1l-2 -1q-100 0 -191 39t-156.5 104.5t-104.5 156.5t-39 191 t39 191t104.5 156.5t156.5 104.5t191 39zM500 1022q-88 0 -162 -43t-117 -117t-43 -162t43 -162t117 -117t162 -43t162 43t117 117t43 162t-43 162t-117 117t-162 43z"></path></g></svg></button>
+        </form>
+
+        <ul id="search-results"></ul>
+
         <p>
           To find documentation sets on HexDocs, you can go to the following URLs:
         </p>
@@ -59,5 +67,54 @@
         </p>
       </div>
     </div>
+    <script type="text/javascript">
+      var searchIndex = [];
+      (function () {
+        document.getElementById('search-submit').addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!searchIndex.length) buildSearchIndex();
+          var searchText = document.getElementById('search').value.toLowerCase();
+          var searchResults = document.getElementById('search-results');
+          searchResults.innerHTML = "";
+
+          for (var i = 0; i < searchIndex.length; i++) {
+            if (searchIndex[i].name === searchText) {
+              var li = document.createElement("li");
+              li.innerHTML = "<em>" + makeMatch(searchIndex[i]) + "</em>";
+              searchResults.insertBefore(li, searchResults.firstChild);
+            } else if (searchIndex[i].name.search(searchText) >= 0) {
+              var li = document.createElement("li");
+              li.innerHTML = makeMatch(searchIndex[i]);
+              searchResults.appendChild(li);
+            }
+          }
+          return true;
+        });
+
+        function buildSearchIndex() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+              out=this.responseXML;
+              var iter, locs = this.responseXML.querySelectorAll("loc").values();
+              while (iter = locs.next()) {
+                if (iter.done) break;
+                var loc = iter.value.textContent;
+                searchIndex.push({ name: loc.match("/(\\w+)/$")[1].toLowerCase(), url: loc });
+              }
+            }
+          };
+          xhttp.open("GET", "/sitemap.xml", false);
+          xhttp.send();
+        }
+
+        function makeMatch(result) {
+          return "<a href='{{url}}'>{{name}}</a>"
+                .replace(/{{name}}/g, result.name)
+                .replace(/{{url}}/g, result.url);
+        }
+      })();
+    </script>
   </body>
 </html>
