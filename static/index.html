@@ -50,7 +50,7 @@
         <p>
           Documentation is automatically published when your publish your package, you can find more information <a href="https://hex.pm/docs/tasks#hex_publish">here</a>.
         </p>
-        
+
         <p>
           Learn how to write documentation <a href="https://hexdocs.pm/elixir/master/writing-documentation.html">here</a>.
         </p>
@@ -103,10 +103,20 @@
                 var loc = iter.value.textContent;
                 searchIndex.push({ name: loc.match("/(\\w+)/$")[1].toLowerCase(), url: loc });
               }
+              addElixirCoreApps()
             }
           };
           xhttp.open("GET", "/sitemap.xml", false);
           xhttp.send();
+        }
+
+        function addElixirCoreApps() {
+          searchIndex.push({ name: "eex", url: "https://hexdocs.pm/eex" });
+          searchIndex.push({ name: "elixir", url: "https://hexdocs.pm/elixir" });
+          searchIndex.push({ name: "ex_unit", url: "https://hexdocs.pm/ex_unit" });
+          searchIndex.push({ name: "iex", url: "https://hexdocs.pm/iex" });
+          searchIndex.push({ name: "logger", url: "https://hexdocs.pm/logger" });
+          searchIndex.push({ name: "mix", url: "https://hexdocs.pm/mix" });
         }
 
         function makeMatch(result) {
