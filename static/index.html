@@ -96,11 +96,10 @@
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-              out=this.responseXML;
-              var iter, locs = this.responseXML.querySelectorAll("loc").values();
-              while (iter = locs.next()) {
-                if (iter.done) break;
-                var loc = iter.value.textContent;
+              out = this.responseXML;
+              var locs = this.responseXML.querySelectorAll("loc");
+              for (var idx = 0; idx < locs.length; idx++) {
+                var loc = locs[idx].textContent;
                 searchIndex.push({ name: loc.match("/(\\w+)/$")[1].toLowerCase(), url: loc });
               }
               addElixirCoreApps()
