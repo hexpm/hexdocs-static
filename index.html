@@ -99,8 +99,9 @@
               out = this.responseXML;
               var locs = this.responseXML.querySelectorAll("loc");
               for (var idx = 0; idx < locs.length; idx++) {
-                var loc = locs[idx].textContent;
-                searchIndex.push({ name: loc.match("/(\\w+)/sitemap.xml$")[1].toLowerCase(), url: loc });
+                var loc = locs[idx].textContent.replace(/sitemap.xml$/, "");
+                var name = loc.match("/(\\w+)/$")[1].toLowerCase();
+                searchIndex.push({ name: name, url: loc });
               }
               addElixirCoreApps()
             }
